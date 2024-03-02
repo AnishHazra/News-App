@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:news_app/models/categories_news_model.dart';
 import 'package:news_app/models/news_channel_headlines_model.dart';
+import 'package:news_app/view/categories_screen.dart';
 import 'package:news_app/view_model/news_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   NewsViewModel newsViewModel = NewsViewModel();
 
-  final format = DateFormat('MMMM dd, yyyy');
+  final format = DateFormat('MMM dd');
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CategoriesScreen(),
+              ),
+            );
+          },
           icon: const Icon(
             Icons.menu_outlined,
             size: 35,
@@ -155,6 +164,109 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             )
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: FutureBuilder<CategoriesNewsModel>(
+              future: newsViewModel.fetchCategoriesNewsApi('General'),
+              builder: (BuildContext context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: SpinKitCircle(
+                      color: Color(0xfffE0A3E),
+                      size: 30,
+                    ),
+                  );
+                } else {
+                  return ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: snapshot.data!.articles!.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      DateTime dateTime = DateTime.parse(
+                        snapshot.data!.articles![index].publishedAt.toString(),
+                      );
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: CachedNetworkImage(
+                                imageUrl: snapshot
+                                    .data!.articles![index].urlToImage
+                                    .toString(),
+                                fit: BoxFit.cover,
+                                height: height * .18,
+                                width: width * .3,
+                                placeholder: (context, url) => Container(
+                                  child: const SpinKitCircle(
+                                    color: Color(0xfffE0A3E),
+                                    size: 30,
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(
+                                  Icons.error_outline,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                height: height * .18,
+                                padding: const EdgeInsets.only(left: 15),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      maxLines: 3,
+                                      snapshot.data!.articles![index].title
+                                          .toString(),
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          snapshot.data!.articles![index]
+                                              .source!.name
+                                              .toString(),
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 14,
+                                            color: Colors.black,
+                                            // fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          format.format(dateTime),
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       );
