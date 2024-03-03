@@ -42,6 +42,15 @@ class _HomeScreenState extends State<HomeScreen> {
             size: 35,
           ),
         ),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  "https://avatars.githubusercontent.com/u/121759157?v=4"),
+            ),
+          )
+        ],
         title: Text(
           "Newsblast",
           style: GoogleFonts.poppins(

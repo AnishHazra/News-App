@@ -37,6 +37,15 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
             fontWeight: FontWeight.w700,
           ),
         ),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  "https://avatars.githubusercontent.com/u/121759157?v=4"),
+            ),
+          )
+        ],
       ),
       body: Stack(
         children: [
