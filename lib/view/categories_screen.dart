@@ -115,11 +115,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   fit: BoxFit.cover,
                                   height: height * .18,
                                   width: width * .3,
-                                  placeholder: (context, url) => Container(
-                                    child: const SpinKitCircle(
-                                      color: Color(0xfffE0A3E),
-                                      size: 30,
-                                    ),
+                                  placeholder: (context, url) =>
+                                      const SpinKitCircle(
+                                    color: Color(0xfffE0A3E),
+                                    size: 30,
                                   ),
                                   errorWidget: (context, url, error) =>
                                       const Icon(
