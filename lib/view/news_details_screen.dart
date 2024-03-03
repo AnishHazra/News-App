@@ -30,6 +30,13 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        title: Text(
+          "Newsblast",
+          style: GoogleFonts.poppins(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
       ),
       body: Stack(
         children: [
@@ -91,6 +98,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                 ),
                 SizedBox(height: height * .03),
                 Text(
+                  maxLines: 3,
                   widget.description,
                   style: GoogleFonts.poppins(
                     fontSize: 15,
@@ -100,7 +108,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                 ),
                 SizedBox(height: height * .03),
                 Text(
-                  maxLines: 6,
+                  maxLines: 3,
                   widget.content,
                   style: GoogleFonts.poppins(
                     fontSize: 15,
